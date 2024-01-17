@@ -1,6 +1,19 @@
 version: '3'
 
 services:
+  sonarqube:
+    image: sonarqube:latest
+    container_name: sonarqube-container
+    ports:
+      - "9000:9000"
+      - "9092:9092"
+    networks:
+      - microservices-network2
+    environment:
+      - SONARQUBE_JDBC_URL=jdbc:mysql://sonarqube-db:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance
+      - SONARQUBE_JDBC_USERNAME=sonar
+      - SONARQUBE_JDBC_PASSWORD=sonar
+
   mysql:
     image: mysql:latest
     container_name: mysql-container1
