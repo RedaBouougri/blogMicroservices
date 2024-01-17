@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3305:3305"
+    networks:
+      - microservices-network2
+  blogauth:
+    build:
+      context: ./blogAuth
+    ports:
+      - "8060:8060"
+    depends_on:
+      - mysql
+    networks:
+      - microservices-network2
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/blogauth?createDatabaseIfNotExist=true&characterEncoding=utf-8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      BEZKODER_APP_JWTSECRET: bezKoderSecretKey
+      BEZKODER_APP_JWTEXPIRATIONMS: 86400000
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      interval: 5s
+      timeout: 2s
+      retries: 100
+  blogcomment:
+    build:
+      context: ./BlogComment
+    ports:
+      - "8010:8010"
+    depends_on:
+      - mysql
+    networks:
+      - microservices-network2
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/blogComment?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      interval: 5s
+      timeout: 2s
+      retries: 100
+  blogpersonnel:
+    build:
+      context: ./blogPersonnel
+    ports:
+      - "8070:8070"
+    depends_on:
+      - mysql
+    networks:
+      - microservices-network2
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/blogPost?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      interval: 5s
+      timeout: 2s
+      retries: 100
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3304
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8081:80"
+    networks:
+      - microservices-network2
+
+networks:
+  microservices-network2:
+    driver: bridge
