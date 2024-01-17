@@ -66,15 +66,6 @@ services:
       interval: 5s
       timeout: 2s
       retries: 100
-  frontend:
-    build:
-      context: ./blog-front
-    ports:
-      - "80:80"
-    depends_on:
-      - blogauth
-    networks:
-      - microservices-network2
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
