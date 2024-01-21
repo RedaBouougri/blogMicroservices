@@ -26,12 +26,3 @@ This is a personal blog project implemented using Spring Boot with a microservic
 ## Code Quality Analysis with SonarQube
 
 [SonarQube details, how it's integrated, custom rules, etc.]
-
-## Getting Started
-
-To run this project locally, follow this step:
-
-Clone the repository:
-
-   ```bash
-   git clone https://github.com/your-username/personal-blog.git
