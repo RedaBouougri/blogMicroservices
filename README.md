@@ -10,7 +10,6 @@ This is a personal blog project implemented using Spring Boot with a microservic
 - Docker
 - Jenkins
 - SonarQube
-- [Other technologies used in your project]
 
 ## Microservices
 
