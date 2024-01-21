@@ -29,9 +29,9 @@ This is a personal blog project implemented using Spring Boot with a microservic
 
 ## Getting Started
 
-To run this project locally, follow these steps:
+To run this project locally, follow this step:
 
-1. Clone the repository:
+    Clone the repository:
 
    ```bash
    git clone https://github.com/your-username/personal-blog.git
