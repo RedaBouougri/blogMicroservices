@@ -21,8 +21,73 @@ This is a personal blog project implemented using Spring Boot with a microservic
 
 ## CI/CD with Jenkins
 
-[Jenkins details, how it's used in the project, pipeline setup, etc.]
+[pipeline setup]
+pipeline {
+    agent any
 
-## Code Quality Analysis with SonarQube
+    tools {
+        maven 'maven'
+    }
 
-[SonarQube details, how it's integrated, custom rules, etc.]
+    stages {
+        stage('Git Clone') {
+            steps {
+                script {
+                    checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/RedaBouougri/blogMicroservices.git']]])
+                }
+            }
+        }
+
+        stage('Build Auth') {
+            steps {
+                script {
+                    dir('blogAuth') {
+                        bat 'mvn clean install -DskipTests'
+                    }
+                }
+            }
+        }
+
+        stage('Build Comment') {
+            steps {
+                script {
+                    dir('BlogComment') {
+                        bat 'mvn clean install -DskipTests'
+                    }
+                }
+            }
+        }
+
+        stage('SonarQube Analysis Comment') {
+            steps {
+                script {
+                    dir('BlogComment') {
+                        // Run SonarQube analysis with default configuration
+                        bat 'mvn sonar:sonar'
+                    }
+                }
+            }
+        }
+
+        stage('Build Post') {
+            steps {
+                script {
+                    dir('blogPersonnel') {
+                        bat 'mvn clean install -DskipTests'
+                    }
+                }
+            }
+        }
+
+        stage('Run') {
+            steps {
+                script {
+                    bat "docker-compose up -d"
+                }
+            }
+ }
+}
+}
+
+
+
