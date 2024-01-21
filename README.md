@@ -22,8 +22,8 @@ This is a personal blog project implemented using Spring Boot with a microservic
 ## CI/CD with Jenkins
 
 [pipeline setup]
-pipeline {
-    agent any
+   pipeline {
+      agent any
 
     tools {
         maven 'maven'
