@@ -17,4 +17,5 @@ public class BlogProjectApplication {
 		return  new RestTemplate();
 }
 
+
 }
