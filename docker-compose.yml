@@ -14,6 +14,8 @@ services:
       - SONARQUBE_JDBC_USERNAME=sonar
       - SONARQUBE_JDBC_PASSWORD=sonar
 
+
+
   mysql:
     image: mysql:latest
     container_name: mysql-container1
